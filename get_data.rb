@@ -19,7 +19,7 @@ res = Net::HTTP.post_form(uri, 'year' => year, 'model' => 'all')
 list = res.body
 
 pat1 = /<a class="typhoon_e_name" value="(\d+)">(\w+)<\/a>/
-pat2 = /<tr>\s*<td align=left class="td_title">(.+)<\/td>\s+<td[\s\w\d"=]*>([\u4e00-\uf937\u3002\uff0c\w\d\s<>\/:\-\(\)]+)<\/td>\s*<\/tr>/
+pat2 = /<tr>\s*<td align=left class="td_title">(.+)<\/td>\s+<td[\s\w\d"=]*>([\u4e00-\uf937\u3002\uff0c\w\d\s<>\/:\-\(\)\.]+)<\/td>\s*<\/tr>/
 
 typhoons = list.scan(pat1).to_a
 
