@@ -19,9 +19,11 @@ res = Net::HTTP.post_form(uri, 'year' => year, 'model' => 'all')
 list = res.body
 
 pat1 = /<a class="typhoon_e_name" value="(\d+)">(\w+)<\/a>/
-pat2 = /<td align=left class="td_title">(.+)<\/td>\s+<td[\s\w\d"=]*>(.+)<\/td>/
+pat2 = /<tr>\s*<td align=left class="td_title">(.+)<\/td>\s+<td[\s\w\d"=]*>([\u4e00-\uf937\u3002\uff0c\w\d\s<>\/:\-\(\)]+)<\/td>\s*<\/tr>/
 
 typhoons = list.scan(pat1).to_a
+
+puts typhoons.size.to_s + " typhoons found!"
 
 typhoon_json = {}
 
@@ -35,7 +37,7 @@ for typhoon in typhoons
 	raw_table = raw_json["tytable"].scan(pat2).to_a
 	data = {}
 	for row in raw_table
-		data[row[0]] = row[1]
+		data[row[0]] = row[1].gsub("<br/>"," ").gsub("\n"," ")
 	end
 	puts data
 	typhoon_json[id] = data
